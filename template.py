@@ -1,6 +1,8 @@
 import os
 import pygame
 
+from game_constants import *
+
 # http://xorobabel.blogspot.fr/2012/10/pythonpygame-2d-animation-jrpg-style.html
 
 class SpriteProjectile(pygame.sprite.Sprite) :
@@ -62,14 +64,23 @@ class SpriteImage(SpriteObject) :
 
 class SpriteRadar(SpriteObject) :
 
-    def set_position(self, x, y) :
-        pass
+    # Should be a cone shape that we can move but
+    # this will be used latter, looks like it's not
+    # something easy to do in pygame (moreover, with alpha
 
     def set_angle(self, radius) :
         pass
 
-    def get_image(self, angle, range) :
+    def resize(self) :
         pass
+
+    def get_image(self) :
+        surface = pygame.Surface((RADAR_RANGE, RADAR_RANGE))
+        surface.set_colorkey((0,0,0))
+        surface.set_alpha(128)
+        mid_radar_range = mrr = int(RADAR_RANGE / 2.)
+        pygame.draw.circle(surface, RADAR_COLOR, (mrr, mrr), mrr)
+        return surface
 
 class Robot(pygame.sprite.Sprite) :
 
@@ -99,6 +110,9 @@ class Robot(pygame.sprite.Sprite) :
         self.tank_turret.set_angle(self.turret_radius)
         self.sprites_group.add(self.tank_turret)
 
+        self.radar = SpriteRadar("radar", self)
+        self.radar.set_position(* self.positions)
+        self.sprites_group.add(self.radar)
 
 
     # Action functions

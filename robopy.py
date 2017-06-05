@@ -92,7 +92,7 @@ class Game() :
             self.sprites_groups[sprite.kind].add(sprite)
 
     def draw_sprites(self) :
-        sprites_order = ["base", "turret"]
+        sprites_order = ["radar", "base", "turret"]
         for kind in sprites_order :
             self.sprites_groups[kind].draw(self.screen)
 
